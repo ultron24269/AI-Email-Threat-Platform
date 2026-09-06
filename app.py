@@ -1,4 +1,7 @@
 import streamlit as st
+import imaplib
+import email
+from email.header import decode_header
 
 from email_analyzer import analyze_email
 from threat_detector import detect_threat
@@ -1128,9 +1131,6 @@ elif page == "📄 Investigation Report":
         "📧 Go to Email Analysis → Upload an .eml file "
         "→ Analyze Email → Download Investigation Report."
     )
-    import imaplib
-import email
-from email.header import decode_header
 
 # --- AUTOMATED GMAIL INBOX MONITORING ---
 @st.fragment(run_every="30s") 
