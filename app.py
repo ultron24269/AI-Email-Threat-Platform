@@ -1128,3 +1128,84 @@ elif page == "📄 Investigation Report":
         "📧 Go to Email Analysis → Upload an .eml file "
         "→ Analyze Email → Download Investigation Report."
     )
+    import imaplib
+import email
+from email.header import decode_header
+
+# --- AUTOMATED GMAIL INBOX MONITORING ---
+@st.fragment(run_every="30s") 
+def monitor_gmail_inbox():
+    """Background loop that polls Gmail for unread alerts every 30 seconds"""
+    
+    # 1. Pull credentials securely from the dashboard secrets you just saved
+    try:
+        GMAIL_USER = st.secrets["GMAIL_USER"]
+        GMAIL_APP_PASSWORD = st.secrets["GMAIL_APP_PASSWORD"]
+    except KeyError:
+        st.warning("🔒 Gmail monitoring is active but missing credentials in Streamlit Secrets.")
+        return
+
+    try:
+        # 2. Establish connection to Gmail IMAP
+        mail = imaplib.IMAP4_SSL("://gmail.com")
+        mail.login(GMAIL_USER, GMAIL_APP_PASSWORD)
+        mail.select("inbox")
+
+        # 3. Check for UNREAD messages
+        status, messages = mail.search(None, "UNREAD")
+        email_ids = messages.split()
+
+        if email_ids:
+            st.toast(f"📬 Found {len(email_ids)} new unread email(s). Processing...")
+            
+            # 4. Iterate through unread emails
+            for e_id in email_ids:
+                res, msg_data = mail.fetch(e_id, "(RFC822)")
+                for response_part in msg_data:
+                    if isinstance(response_part, tuple):
+                        msg = email.message_from_bytes(response_part)
+                        
+                        # Extract the email Subject line
+                        subject, encoding = decode_header(msg["Subject"])[0]
+                        if isinstance(subject, bytes):
+                            subject = subject.decode(encoding or "utf-8", errors="ignore")
+                        
+                        # Extract the email Body text
+                        email_body = ""
+                        if msg.is_multipart():
+                            for part in msg.walk():
+                                if part.get_content_type() == "text/plain":
+                                    email_body = part.get_payload(decode=True).decode(errors="ignore")
+                                    break
+                        else:
+                            email_body = msg.get_payload(decode=True).decode(errors="ignore")
+
+                        # 5. Send it to your existing core detection tool
+                        # (Ensure 'detect_threat' is what your file uses!)
+                        analysis_result = detect_threat(email_body)
+
+                        # 6. Active Real-time Alert Popups
+                        if "harmful" in analysis_result.lower() or "threat" in analysis_result.lower():
+                            st.toast(f"🚨 THREAT DETECTED: '{subject}'", icon="❌")
+                            st.error(f"⚠️ **Malicious Email Intercepted!**\n\n**Subject:** {subject}\n\n**AI Forensic Verdict:** {analysis_result}")
+                        else:
+                            st.toast(f"✅ Safe Email Checked: '{subject}'", icon="🛡️")
+                            
+                # Mark as read so it isn't processed again on the next 30s rerun
+                mail.store(e_id, "+FLAGS", "\\Seen")
+
+        mail.close()
+        mail.logout()
+
+    except Exception as e:
+        # Silently log errors in small caption text to avoid breaking the interface layout
+        st.caption(f"Scanner idle or connecting... Status: {str(e)}")
+
+# --- START RUNNING THE SCANNER ---
+st.divider()
+st.subheader("📬 Automated Live Inbox Watchdog")
+st.write("Status: **Active** (Silently polling your inbox every 30 seconds for incoming alerts)")
+
+# Start the continuous interval fragment loop
+monitor_gmail_inbox()
+
