@@ -1147,7 +1147,7 @@ def monitor_gmail_inbox():
 
     try:
         # 2. Establish connection to Gmail IMAP
-        mail = imaplib.IMAP4_SSL(gmail.com")
+        mail = imaplib.IMAP4_SSL("gmail.com")
         mail.login(GMAIL_USER, GMAIL_APP_PASSWORD)
         mail.select("inbox")
 
