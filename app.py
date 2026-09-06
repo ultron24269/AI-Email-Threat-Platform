@@ -1,9 +1,9 @@
 import streamlit as st
 
-from modules.email_analyzer import analyze_email
-from modules.threat_detector import detect_threat
-from modules.url_analyzer import analyze_urls
-from modules.geolocation import analyze_ips
+from email_analyzer import analyze_email
+from threat_detector import detect_threat
+from url_analyzer import analyze_urls
+from geolocation import analyze_ips
 from modules.threat_intel import analyze_indicators
 from modules.forensic import build_forensic_timeline
 from modules.report import generate_report
