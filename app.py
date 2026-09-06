@@ -4,9 +4,9 @@ from email_analyzer import analyze_email
 from threat_detector import detect_threat
 from url_analyzer import analyze_urls
 from geolocation import analyze_ips
-from modules.threat_intel import analyze_indicators
-from modules.forensic import build_forensic_timeline
-from modules.report import generate_report
+from threat_intel import analyze_indicators
+from forensic import build_forensic_timeline
+from report import generate_report
 
 
 # ==========================================
