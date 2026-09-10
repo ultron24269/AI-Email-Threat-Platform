@@ -8,8 +8,8 @@ import streamlit as st
 import imaplib
 import email
 from email.header import decode_header
-
-from email_analyzer import analyze_email
+# Change this line:
+from modules.email_analyzer import analyze_email
 from threat_detector import detect_threat
 from modules.url_analyzer import analyze_urls
 from geolocation import analyze_ips
