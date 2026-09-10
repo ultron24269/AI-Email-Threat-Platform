@@ -1,2 +1,5 @@
+streamlit
 python-dotenv
 reportlab
+joblib
+scikit-learn
