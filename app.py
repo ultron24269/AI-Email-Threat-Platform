@@ -15,7 +15,7 @@ from modules.url_analyzer import analyze_urls
 from modules.geolocation import analyze_ips
 from modules.threat_intel import analyze_indicators
 from modules.forensic import build_forensic_timeline
-from modlues.report import generate_report
+from modules.report import generate_report
 
 
 # ==========================================
