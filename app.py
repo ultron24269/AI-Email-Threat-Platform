@@ -1,3 +1,9 @@
+import os
+import sys
+
+# Inserts the absolute root directory path into Python's search path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import streamlit as st
 import imaplib
 import email
