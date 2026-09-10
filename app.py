@@ -14,7 +14,7 @@ from modules.threat_detector import detect_threat
 from modules.url_analyzer import analyze_urls
 from modules.geolocation import analyze_ips
 from modules.threat_intel import analyze_indicators
-from modlues.forensic import build_forensic_timeline
+from modules.forensic import build_forensic_timeline
 from modlues.report import generate_report
 
 
