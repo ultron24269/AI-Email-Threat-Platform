@@ -5,7 +5,7 @@ from email.header import decode_header
 
 from email_analyzer import analyze_email
 from threat_detector import detect_threat
-from url_analyzer import analyze_urls
+from modules.url_analyzer import analyze_urls
 from geolocation import analyze_ips
 from threat_intel import analyze_indicators
 from forensic import build_forensic_timeline
