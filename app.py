@@ -10,12 +10,12 @@ import email
 from email.header import decode_header
 # Change this line:
 from modules.email_analyzer import analyze_email
-from threat_detector import detect_threat
+from modules.threat_detector import detect_threat
 from modules.url_analyzer import analyze_urls
-from geolocation import analyze_ips
-from threat_intel import analyze_indicators
-from forensic import build_forensic_timeline
-from report import generate_report
+from modules.geolocation import analyze_ips
+from modules.threat_intel import analyze_indicators
+from modlues.forensic import build_forensic_timeline
+from modlues.report import generate_report
 
 
 # ==========================================
