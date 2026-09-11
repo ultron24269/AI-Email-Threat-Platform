@@ -844,7 +844,7 @@ elif page == "🔗 URL Analysis":
                 with col3:
 
                     st.write(
-                        "**Classification**"
+                        "**prediction**"
                     )
 
                     st.write(
@@ -853,13 +853,13 @@ elif page == "🔗 URL Analysis":
 
                     )
 
-                if item["classification"] == "HIGH RISK":
+                if item["prediction"] == "HIGH RISK":
 
                     st.error(
                         "🚨 HIGH-RISK URL"
                     )
 
-                elif item["classification"] == "SUSPICIOUS":
+                elif item["prediction"] == "SUSPICIOUS":
 
                     st.warning(
                         "⚠️ SUSPICIOUS URL"
