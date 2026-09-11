@@ -473,9 +473,8 @@ elif page == "📧 Email Analysis":
                         )
 
                     if (
-                        url_result[
-                            "classification"
-                        ]
+                        url_result.get("prediction", "Unknown")
+
                         == "HIGH RISK"
                     ):
 
