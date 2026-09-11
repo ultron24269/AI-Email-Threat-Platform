@@ -456,7 +456,8 @@ elif page == "📧 Email Analysis":
 
                         st.metric(
                             "URL Risk",
-                            f"{int(url_result.get('phishing_probability', 0) * 100)}/100"
+                            f"{int(url_result.get('phishing_probability', 0))}/100"
+
 
                         )
 
@@ -837,7 +838,8 @@ elif page == "🔗 URL Analysis":
 # f"{item['risk_score']}/100"
 
 # To this (assuming phishing_probability is a decimal like 0.85):
-                       f"{int(item.get('phishing_probability', 0) * 100)}/100"
+                       f"{int(item.get('phishing_probability', 0))}/100"
+
 
                     )
 
