@@ -833,7 +833,12 @@ elif page == "🔗 URL Analysis":
 
                     st.metric(
                         "Risk Score",
-                        f"{item['risk_score']}/100"
+                        # Change this broken line:
+# f"{item['risk_score']}/100"
+
+# To this (assuming phishing_probability is a decimal like 0.85):
+                       f"{int(item.get('phishing_probability', 0) * 100)}/100"
+
                     )
 
                 with col3:
