@@ -448,7 +448,8 @@ elif page == "📧 Email Analysis":
                         st.write("**Domain**")
 
                         st.code(
-                            url_result["domain"]
+                            url_result.get("domain", "N/A")
+
                         )
 
                     with col2:
