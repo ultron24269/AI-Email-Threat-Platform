@@ -482,9 +482,9 @@ elif page == "📧 Email Analysis":
                         )
 
                     elif (
-                        url_result.get[
+                        url_result.get(
                             "prediction"
-                        ]
+                        )
                         == "SUSPICIOUS"
                     ):
 
