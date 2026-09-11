@@ -213,7 +213,7 @@ def generate_report(
 
             url_table_data.append([
                 item["url"],
-                item["domain"],
+                item.get("domain", "N/A"),
                 f"{item['risk_score']}/100",
                 item["classification"]
             ])
