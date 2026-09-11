@@ -468,7 +468,7 @@ elif page == "📧 Email Analysis":
 
                         st.write(
                             url_result[
-                                "classification"
+                                "prediction"
                             ]
                         )
 
@@ -484,7 +484,7 @@ elif page == "📧 Email Analysis":
 
                     elif (
                         url_result[
-                            "classification"
+                            "prediction"
                         ]
                         == "SUSPICIOUS"
                     ):
