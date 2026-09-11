@@ -824,9 +824,11 @@ elif page == "🔗 URL Analysis":
 
                     st.write("**Domain**")
 
-                    st.code(
-                        item["domain"]
-                    )
+                    
+                        # Replace line 828 in app.py with this:
+st.code(item.get("domain", "Domain data not found"))
+
+                    
 
                 with col2:
 
