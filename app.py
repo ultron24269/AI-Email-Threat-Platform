@@ -853,7 +853,8 @@ elif page == "🔗 URL Analysis":
 
                     )
 
-                if item["prediction"] == "HIGH RISK":
+                if item.get("prediction") == "HIGH RISK":
+
 
                     st.error(
                         "🚨 HIGH-RISK URL"
