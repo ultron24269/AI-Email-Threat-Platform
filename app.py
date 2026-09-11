@@ -219,4 +219,170 @@ elif page == "📧 Email Analysis":
             e_urls = cached_pipeline["url_results"]
 
             st.success("✅ Deep forensic extraction cycle completed successfully!")
+                        # 🤖 Render AI Threat Detection Metrics Panels
+            st.subheader("🤖 AI Threat Detection Matrix Summary")
+            col_m1, col_m2, col_m3 = st.columns(3)
+            with col_m1:
+                st.metric("Calculated Threat Score", f"{int(e_threat.get('risk_score', 0))}/100")
+            with col_m2:
+                st.metric("Assessed Threat Risk Level", str(e_threat.get("risk_level", "UNKNOWN")).upper())
+            with col_m3:
+                st.metric("System Engine Classification", str(e_threat.get("classification", "UNKNOWN")).upper())
 
+            # UI Notification Card formatting based on classification values
+            verdict_val = str(e_threat.get("classification", "SAFE")).upper()
+            if verdict_val in ["MALICIOUS", "HIGH RISK"]:
+                st.error("🚨 MALICIOUS PACKET METRICS CRITICALLY IDENTIFIED")
+            elif verdict_val == "SUSPICIOUS":
+                st.warning("⚠️ ANOMALOUS OR UNVERIFIED HEURISTIC BEHAVIORS DETECTED")
+            else:
+                st.success("✅ CORRELATION COMPLETE: ELEMENT MATCHES SAFE SIGNATURES")
+
+            # Executive Metadata Breakdown Display Lists
+            st.subheader("📬 Header Structural Layout Information")
+            st.write(f"**Origin Address (From):** `{e_meta.get('sender', 'Unknown')}`")
+            st.write(f"**Destination Node (To):** `{e_meta.get('receiver', 'Unknown')}`")
+            st.write(f"**Subject Title:** {e_meta.get('subject', 'No Subject Title Found')}")
+            st.write(f"**Message Identifier String:** `{e_meta.get('message_id', 'N/A')}`")
+
+            # Render detection reasoning logs safely if present
+            if e_threat.get("reasons"):
+                st.subheader("🔎 System Heuristic Detection Flags")
+                for item_reason in e_threat.get("reasons", []):
+                    st.write(f"• {item_reason}")
+
+            # =========================================================
+            # INTEGRATED URL SCANNING ROW GRID
+            # =========================================================
+            if e_urls:
+                st.markdown("---")
+                st.subheader("🔗 Extracted Embedded Hyperlink Profiles")
+                for single_url in e_urls:
+                    raw_link = single_url.get("url", "N/A")
+                    
+                    # Dynamically compute clean base web domains from full url paths
+                    parsed_domain_name = urlparse(raw_link).netloc if raw_link != "N/A" else "N/A"
+                    
+                    # Fetch risk weights safely without doubling percentage math factors
+                    prob_val = int(single_url.get("phishing_probability", 0))
+                    link_verdict = str(single_url.get("prediction", "UNKNOWN")).upper()
+
+                    st.write(f"**Target Link:** `{raw_link}`")
+                    st.write(f"Base Domain: `{parsed_domain_name}`")
+                    st.write(f"AI Phishing Probability Score: `{prob_val}/100`")
+
+                    if link_verdict in ["PHISHING", "HIGH RISK", "MALICIOUS"]:
+                        st.error(f"❌ DANGEROUS NETWORK VECTOR FLAGGED: {link_verdict}")
+                    elif link_verdict == "SUSPICIOUS":
+                        st.warning(f"⚠️ ANOMALOUS INFRASTRUCTURE DETECTED: {link_verdict}")
+                    else:
+                        st.success("✅ Link parameters match standard structural traits.")
+                    st.markdown("---")
+
+# ==========================================
+# MODULE 3: HYPERLINK SUB-ANALYSIS
+# ==========================================
+elif page == "🔗 URL Analysis":
+    st.title("🔗 Deep URL Security Matrix")
+    if st.session_state.email_analysis_cache is None:
+        st.info("❗ Telemetry Cache Unpopulated: Execute analysis run under the '📧 Email Analysis' module first.")
+    else:
+        cached_urls = st.session_state.email_analysis_cache.get("url_results", [])
+        if cached_urls:
+            st.write("### Target Domain Processing Matrix")
+            st.dataframe(cached_urls)
+            
+            for idx, url_node in enumerate(cached_urls):
+                st.markdown(f"#### Indicator Node #{idx + 1}")
+                st.json(url_node)
+        else:
+            st.success("✅ Clean Scan Run: No embedded hyperlinks discovered.")
+
+# ==========================================
+# MODULE 4: IP ROUTING GEOLOCATION
+# ==========================================
+elif page == "🌍 GeoLocation":
+    st.title("🌍 Network Path Hop Geolocation Mapping")
+    if st.session_state.email_analysis_cache is None:
+        st.info("❗ Telemetry Cache Unpopulated: Execute analysis run under the '📧 Email Analysis' module first.")
+    else:
+        cached_ips = st.session_state.email_analysis_cache.get("ip_results", [])
+        if cached_ips:
+            st.write("### Extracted Network Routing Node Records")
+            st.dataframe(cached_ips)
+            
+            # Map tracking render loops
+            for ip_block in cached_ips:
+                if ip_block.get("ip"):
+                    st.write(f"Node Coordinate Extraction: {ip_block.get('ip')} — Country: {ip_block.get('country', 'Private/Internal')}")
+        else:
+            st.info("No public external routing hops extracted from message header profiles.")
+
+# ==========================================
+# MODULE 5: LIVE THREAT INTELLIGENCE
+# ==========================================
+elif page == "🔎 Threat Intelligence":
+    st.title("🔎 Real-Time Threat Intelligence Database Cross-Check")
+    if st.session_state.email_analysis_cache is None:
+        st.info("❗ Telemetry Cache Unpopulated: Execute analysis run under the '📧 Email Analysis' module first.")
+    else:
+        cached_ti = st.session_state.email_analysis_cache.get("ti_results", [])
+        if cached_ti:
+            st.write("### Extracted Reputation Database Matches")
+            st.dataframe(cached_ti)
+        else:
+            st.success("✅ External database check complete: No indicators matched known historical blacklist parameters.")
+
+# ==========================================
+# MODULE 6: INCIDENT DIGITAL FORENSICS
+# ==========================================
+elif page == "🕵️ Forensic Analysis":
+    st.title("🕵️ Chronological Forensic Reconstruction Matrix")
+    if st.session_state.email_analysis_cache is None:
+        st.info("❗ Telemetry Cache Unpopulated: Execute analysis run under the '📧 Email Analysis' module first.")
+    else:
+        cached_timeline = st.session_state.email_analysis_cache.get("forensic_timeline", [])
+        if cached_timeline:
+            st.subheader("System Event Log Sequence")
+            st.write(cached_timeline)
+            
+            for event in cached_timeline:
+                if isinstance(event, dict):
+                    st.markdown(f"`[{event.get('time', '00:00:00')}]` Action Event: {event.get('action', 'Subprocess Triggered')}")
+        else:
+            st.info("Chronological pipeline logs missing for this target packet profile.")
+
+# ==========================================
+# MODULE 7: INVESTIGATION REPORTING COMPILER
+# ==========================================
+elif page == "📄 Investigation Report":
+    st.title("📄 Compile Certified Investigation Reports")
+    if st.session_state.email_analysis_cache is None:
+        st.info("❗ Telemetry Cache Unpopulated: Execute analysis run under the '📧 Email Analysis' module first.")
+    else:
+        cached_report_source = st.session_state.email_analysis_cache
+        st.write("Click the compilation button below to build and download an exportable, multi-page forensic PDF log detailing every security variable found.")
+        
+        if st.button("🛠️ Assemble Forensic PDF Document Artifact", key="compile_pdf_button"):
+            with st.spinner("Compiling structural data vectors into ReportLab canvases..."):
+                # Execute newly patched, non-crashing PDF generator module functions
+                output_report_name = generate_report(
+                    cached_report_source.get("url_results", []),
+                    email_meta=cached_report_source.get("result", {}),
+                    forensic_timeline=cached_report_source.get("forensic_timeline", [])
+                )
+                
+                # Render secure download links to UI screen once compiler outputs files cleanly
+                if os.path.exists(output_report_name):
+                    with open(output_report_name, "rb") as pdf_data_stream:
+                        st.download_button(
+                            label="📥 Download Threat Investigation Summary PDF",
+                            data=pdf_data_stream.read(),
+                            file_name="Forensic_Threat_Analysis_Report.pdf",
+                            mime="application/pdf"
+                        )
+                    st.success("✅ Certified forensic report artifact successfully rendered and packed for extraction!")
+                else:
+                    st.error("Failed to generate report artifact due to an internal directory write limitation.")
+
+ 
