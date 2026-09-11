@@ -860,7 +860,8 @@ elif page == "🔗 URL Analysis":
                         "🚨 HIGH-RISK URL"
                     )
 
-                elif item["prediction"] == "SUSPICIOUS":
+                elif item.get("prediction") == "SUSPICIOUS":
+
 
                     st.warning(
                         "⚠️ SUSPICIOUS URL"
