@@ -209,4 +209,9 @@ elif page == "📧 Email Analysis":
             st.write(f"**Message Identifier String:** `{e_meta.get('message_id', 'N/A')}`")
 
             # Render detection reasoning logs safely if present
+                        # Render parsed detection reasoning logs safely if present
             if e_threat.get("reasons"):
+                st.subheader("🔎 System Heuristic Detection Flags")
+                for item_reason in e_threat.get("reasons", []):
+                    st.write(f"• {item_reason}")
+
