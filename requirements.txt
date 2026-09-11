@@ -3,3 +3,4 @@ python-dotenv
 reportlab
 joblib
 scikit-learn
+streamlit-autorefresh
