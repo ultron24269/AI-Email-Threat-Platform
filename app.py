@@ -848,7 +848,9 @@ elif page == "🔗 URL Analysis":
                     )
 
                     st.write(
-                        item["classification"]
+                        item.get("prediction", "Unknown")
+
+
                     )
 
                 if item["classification"] == "HIGH RISK":
