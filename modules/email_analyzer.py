@@ -95,7 +95,7 @@ def check_live_mailbox():
     # Or manage them securely using Streamlit Secrets / Environment variables.
     EMAIL_USER = os.getenv("WATCHDOG_EMAIL", "your-email@gmail.com")
     EMAIL_PASS = os.getenv("WATCHDOG_PASSWORD", "your-16-char-google-app-password")
-    IMAP_SERVER = os.getenv("WATCHDOG_IMAP", "://gmail.com")
+    IMAP_SERVER = os.getenv("WATCHDOG_IMAP", "imap.gmail.com")
 
     detected_threats = []
 
@@ -111,8 +111,8 @@ def check_live_mailbox():
         # Query mailbox exclusively for UNREAD / UNSEEN items
         status, search_data = mail.search(None, "UNSEEN")
         
-        if status != "OK":
-            print("[WATCHDOG ERROR] Mailbox folder index search command failed.")
+        if status != "OK" or not search_data or not search_data[0]:
+            print("[WATCHDOG LOG] Synchronized. Found 0 unread messages to evaluate.")
             return []
 
         # Parse message identification markers
@@ -123,9 +123,10 @@ def check_live_mailbox():
         for e_id in email_ids[-3:]:
             # Fetch raw structural message body bytes
             fetch_status, fetch_data = mail.fetch(e_id, "(RFC822)")
-            if fetch_status != "OK":
+            if fetch_status != "OK" or not fetch_data or not fetch_data[0]:
                 continue
 
+            # Safe extraction of the raw email content bytes
             raw_email_bytes = fetch_data[0][1]
 
             # Ingest raw email directly using the existing analyze_email function above
