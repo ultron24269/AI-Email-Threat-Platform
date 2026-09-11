@@ -467,9 +467,7 @@ elif page == "📧 Email Analysis":
                         )
 
                         st.write(
-                            url_result.get[
-                                "prediction"
-                            ]
+                            url_result.get["prediction"]
                         )
 
                     if (
