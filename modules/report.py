@@ -214,7 +214,8 @@ def generate_report(
             url_table_data.append([
                 item["url"],
                 item.get("domain", "N/A"),
-                f"{int(item.get('phishing_probability', 0) * 100)}/100",
+                f"{int(item.get('phishing_probability', 0))}/100"
+
                 item.get("prediction", "Unknown")
             ])
 
